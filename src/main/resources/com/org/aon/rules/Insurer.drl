@@ -1,0 +1,32 @@
+package com.org.aon.rules
+
+import com.org.aon.to.*;
+
+
+declare request
+	customer: Customer
+end
+
+rule insurer1 when
+    c : Customer( postcode != null && occupation != null )
+then
+    insertLogical( new Quotes( "insurer1",100 ) );
+end
+
+rule insurer2 when
+    c : Customer( (!postcode.equals("2000") || !postcode.equals("2001"))  && !occupation.equals("Butcher") )
+then
+    insertLogical( new Quotes( "insurer2",1000 ) );
+end
+
+rule insurer3 when
+    c : Customer( !(postcode.equals("2000")  && (occupation.equals("Butcher") || occupation.equals("Plumber"))) && turnover >= 200000 )
+then
+    insertLogical( new Quotes( "insurer3",1007 ) );
+end
+
+rule insurer4 when
+    c : Customer( postcode != null && occupation != null && turnover >= 400000)
+then
+    insertLogical( new Quotes( "insurer4",10000 ) );
+end
